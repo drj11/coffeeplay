@@ -16,11 +16,25 @@ compileAndGo = ->
     result.normal = eval compiled
   catch error
     result.error = error
-  console.log "result", result
+  appendEvaluation source, result
+  $('#repl').select()
+appendEvaluation = (source, result) ->
+  $('#repl').before($('<p>').text(source).addClass('source'))
+  appendResult result
+appendResult = (result) ->
+  if result.normal?
+    t = result.normal
+    c = 'normal'
+  else if result.error?
+    t = result.error
+    c = 'error'
+  t ?= result
+  $('#repl').before($('<p>').text(t).addClass(c))
 $(document.body)
   .keydown (e) ->
     if e.which == 13
       compileAndGo()
+      e.preventDefault()
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="http://coffeescript.org/extras/coffee-script.js"></script>
