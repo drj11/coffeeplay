@@ -31,12 +31,15 @@ compileAndGo = ->
     compiled = CoffeeScript.compile source, bare: yes
     console.log "compiled code", compiled
   catch error
-    result.coffeeError = error
+    result.value = error
+    result.completion = 'coffeeError'
   if compiled?
     try
-      result.normal = eval compiled
+      result.value = eval compiled
+      result.completion = 'normal'
     catch error
-      result.error = error
+      result.value = error
+      result.completion = 'error'
   appendEvaluation source, result
   $('#repl').select()
 
@@ -47,20 +50,14 @@ appendEvaluation = (source, result) ->
   appendResult result
 
 appendResult = (result) ->
-  if result.normal?
-    # Normal evaluation.
-    t = result.normal
-    c = 'result normal'
-  else if result.error?
-    # Runtime error, such as missing function.
-    t = result.error
-    c = 'result error'
-  else if result.coffeeError?
-    # Error when compiling CoffeeScript, such as missing '
-    t = result.coffeeError
-    c = 'result coffee error'
-  t ?= result
-  $('#repl').before($('<p>').text(t).addClass(c))
+  switch result.completion
+    when 'normal'
+      c = 'result normal'
+    when 'error'
+      c = 'result error'
+    when 'coffeeError'
+      c = 'result coffee error'
+  $('#repl').before($('<p>').text(result.value).addClass(c))
 
 snapScroll = ->
   # Scroll the document so that the repl is showing at the bottom.
