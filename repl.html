@@ -85,6 +85,9 @@ snapScroll = ->
 
 $(document.body)
   .keydown (e) ->
+    modified = e.shiftKey
+    if modified
+      return true
     if e.which == 13
       compileAndGo()
       snapScroll()
