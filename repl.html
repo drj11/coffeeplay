@@ -76,7 +76,7 @@ appendResult = (result) ->
       c = 'result error'
     when 'coffeeError'
       c = 'result coffee error'
-  $('#repl').before($('<p>').text(result.value).addClass(c))
+  $('#repl').before($('<p>').text(String(result.value)).addClass(c))
 
 snapScroll = ->
   # Scroll the document so that the repl is showing at the bottom.
