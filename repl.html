@@ -4,6 +4,12 @@
 .source {
   background-color: #ccc
 }
+.source .history {
+  background-color: #999
+}
+.source .history:after {
+  content: ": "
+}
 .result.error
 {
   background-color: #fc2
@@ -14,7 +20,8 @@
   autofocus="autofocus"></textarea>
 </div>
 <script type="text/coffeescript">
-console.log "CoffeeScript rules!"
+# Keeps track of how many commands have been typed.
+historyIndex = 0
 compileAndGo = ->
   source = $('#repl').val()
   result = {}
@@ -34,7 +41,9 @@ compileAndGo = ->
   $('#repl').select()
 
 appendEvaluation = (source, result) ->
-  $('#repl').before($('<p>').text(source).addClass('source'))
+  $('#repl').before($('<p>').text(source).addClass('source')
+    .prepend("<span class='history'>#{historyIndex}</span>"))
+  historyIndex += 1
   appendResult result
 
 appendResult = (result) ->
