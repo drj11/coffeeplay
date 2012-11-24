@@ -25,6 +25,10 @@
 <script type="text/coffeescript">
 # Keeps track of how many commands have been typed.
 historyIndex = 0
+# A hack that means evals using indirectEval will cause
+# assignments to be to the global object.  Makes "foo=7"
+# work in the REPL.
+indirectEval = eval
 compileAndGo = ->
   source = $('#repl').val()
   result = {}
@@ -38,7 +42,7 @@ compileAndGo = ->
     result.completion = 'coffeeError'
   if compiled?
     try
-      result.value = eval compiled
+      result.value = indirectEval compiled
       result.completion = 'normal'
     catch error
       result.value = error
