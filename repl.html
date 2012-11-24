@@ -4,6 +4,10 @@
 .source {
   background-color: #ccc
 }
+.result.error
+{
+  background-color: #fc2
+}
 </style>
 <div id="repl_div">
 <textarea id="repl" rows="10" spellcheck="false"
@@ -13,26 +17,39 @@
 console.log "CoffeeScript rules!"
 compileAndGo = ->
   source = $('#repl').val()
-  console.log "will compile", source
-  compiled = CoffeeScript.compile source, bare: yes
-  console.log "compiled code", compiled
   result = {}
+  compiled = null
+  console.log "will compile", source
   try
-    result.normal = eval compiled
+    compiled = CoffeeScript.compile source, bare: yes
+    console.log "compiled code", compiled
   catch error
-    result.error = error
+    result.coffeeError = error
+  if compiled?
+    try
+      result.normal = eval compiled
+    catch error
+      result.error = error
   appendEvaluation source, result
   $('#repl').select()
+
 appendEvaluation = (source, result) ->
   $('#repl').before($('<p>').text(source).addClass('source'))
   appendResult result
+
 appendResult = (result) ->
   if result.normal?
+    # Normal evaluation.
     t = result.normal
-    c = 'normal'
+    c = 'result normal'
   else if result.error?
+    # Runtime error, such as missing function.
     t = result.error
-    c = 'error'
+    c = 'result error'
+  else if result.coffeeError?
+    # Error when compiling CoffeeScript, such as missing '
+    t = result.coffeeError
+    c = 'result coffee error'
   t ?= result
   $('#repl').before($('<p>').text(t).addClass(c))
 $(document.body)
