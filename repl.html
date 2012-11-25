@@ -61,11 +61,20 @@ historyIndex = 0
 # work in the REPL.
 indirectEval = eval
 
+open = (obj) ->
+  # Extract all of the function properties of obj and make them
+  # global functions that call the corresponding method on obj.
+  (exports[k] = (args...) -> v.apply(obj, args))  for k,v of obj when typeof v is 'function'
+  # Avoids constructing and returning list.
+  'opened'
+
 exports.Studio = (module) ->
   # Enable studio mode by displaying the '#me' div
   # and invoking the module.  EG r = Studio Raphael
   $('#me').css 'display', 'block'
-  module 'me'
+  obj = module 'me'
+  open obj
+
 compileAndGo = ->
   source = $('#repl textarea').val()
   result = {}
