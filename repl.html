@@ -24,25 +24,50 @@ h2 {
 {
   background-color: #fc2
 }
+#me {
+  display: none;
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  top: 10px;
+  right: 10px;
+  background: rgba(220,220,220,0.8);
+  margin: 0;
+}
 </style>
 <h2 id="banner">Welcome to
 <span class="logo"><i>Coffee</i><b>Play</b></span>
 </h2>
-<div id="repl_div">
-<textarea id="repl" rows="4" cols="63" spellcheck="false"
+<div id="main">
+<div id="repl">
+<textarea rows="4" cols="43" spellcheck="false"
   autofocus="autofocus"
   placeholder="Type some CoffeeScript and press ↵"
   ></textarea>
 </div>
+<div id="me">
+</div>
+</div>
 <script type="text/coffeescript">
+# Allow truly global exports to be defined using
+# exports.thing = 'stuff'
+exports = this
+
 # Keeps track of how many commands have been typed.
 historyIndex = 0
+
 # A hack that means evals using indirectEval will cause
 # assignments to be to the global object.  Makes "foo=7"
 # work in the REPL.
 indirectEval = eval
+
+exports.Studio = (module) ->
+  # Enable studio mode by displaying the '#me' div
+  # and invoking the module.  EG r = Studio Raphael
+  $('#me').css 'display', 'block'
+  module 'me'
 compileAndGo = ->
-  source = $('#repl').val()
+  source = $('#repl textarea').val()
   result = {}
   compiled = null
   console.log "will compile", source
@@ -60,10 +85,10 @@ compileAndGo = ->
       result.value = error
       result.completion = 'error'
   appendEvaluation source, result
-  $('#repl').select()
+  $('#repl textarea').select()
 
 appendEvaluation = (source, result) ->
-  $('#repl').before($('<p>').text(source).addClass('source')
+  $('#repl textarea').before($('<p>').text(source).addClass('source')
     .prepend("<span class='history'>#{historyIndex}</span>"))
   historyIndex += 1
   appendResult result
@@ -76,7 +101,7 @@ appendResult = (result) ->
       c = 'result error'
     when 'coffeeError'
       c = 'result coffee error'
-  $('#repl').before($('<p>').text(String(result.value)).addClass(c))
+  $('#repl textarea').before($('<p>').text(String(result.value)).addClass(c))
 
 snapScroll = ->
   # Scroll the document so that the repl is showing at the bottom.
@@ -95,4 +120,7 @@ $(document.body)
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="http://coffeescript.org/extras/coffee-script.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="http://g.raphaeljs.com/g.raphael.js"></script>
+<script src="http://g.raphaeljs.com/g.pie.js"></script>
 </html>
