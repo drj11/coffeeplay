@@ -97,10 +97,19 @@ compileAndGo = ->
   $('#repl textarea').select()
 
 appendEvaluation = (source, result) ->
-  $('#repl textarea').before($('<p>').text(source).addClass('source')
-    .prepend("<span class='history'>#{historyIndex}</span>"))
+  appendSource(source)
   historyIndex += 1
   appendResult result
+
+appendSource = (source) ->
+  permalink = location.origin + location.pathname + '#play:' +
+    encodeURIComponent source
+  $a = $('<a>').attr('href', permalink).text('permalink')
+  console.log permalink
+  console.log $a
+  $('#repl textarea').before($('<p>').text(source).addClass('source')
+    .append($('<span>').addClass('permalink').text(' ').append($a))
+    .prepend("<span class='history'>#{historyIndex}</span>"))
 
 appendResult = (result) ->
   switch result.completion
