@@ -1,0 +1,42 @@
+h2 {
+  font-weight: normal
+}
+
+.logo i {
+  font-weight: normal
+}
+
+.logo b {
+  font-style: bold
+}
+
+.source {
+  background-color: #ccc
+}
+
+.source .history {
+  background-color: #999
+}
+
+.source .history:after {
+  content: ": "
+}
+
+.result.error {
+  background-color: #fc2
+}
+
+.result.coffee.error {
+  background-color: #c82
+}
+
+#me {
+  display: none;
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  top: 10px;
+  right: 10px;
+  background: rgba(220,220,220,0.8);
+  margin: 0;
+}
