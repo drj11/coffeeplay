@@ -3,19 +3,21 @@
 <head>
   <meta http-equiv='Content-Type' content='Type=text/html; charset=utf-8'>
   <title>CoffeePlay</title>
-  <link type="text/css" rel="stylesheet" href="style.css" />
+  <link href="style.css" rel="stylesheet" />
 </head>
 <body>
-  <h2 id="banner">Welcome to
-    <span class="logo"><i>Coffee</i><b>Play</b></span>
-  </h2>
+  <header>
+    <h2 id="banner">Welcome to
+      <span class="logo"><i>Coffee</i><b>Play</b></span>
+    </h2>
+  </header>
   <div id="main">
-    <div id="repl">
-      <textarea rows="4" cols="43" spellcheck="false" autofocus="autofocus" placeholder="Type some CoffeeScript and press ↵"></textarea>
-    </div>
-    <div id="me">
-    </div>
+    <div id="repl"></div>
+    <div id="me"></div>
   </div>
+  <footer>
+    <textarea rows="4" cols="43" spellcheck="false" autofocus="autofocus" placeholder="Type some CoffeeScript and press ↵"></textarea>
+  </footer>
   <script type="text/coffeescript">
 # Allow truly global exports to be defined using
 # exports.thing = 'stuff'
@@ -44,7 +46,7 @@ exports.Studio = (module) ->
   open obj
 
 compileAndGo = ->
-  source = $('#repl textarea').val()
+  source = $('textarea').val()
   result = {}
   compiled = null
   console.log "will compile", source
@@ -62,7 +64,7 @@ compileAndGo = ->
       result.value = error
       result.completion = 'error'
   appendEvaluation source, result
-  $('#repl textarea').select()
+  $('textarea').select()
 
 appendEvaluation = (source, result) ->
   appendSource(source)
@@ -73,7 +75,7 @@ appendSource = (source) ->
   permalink = location.origin + location.pathname + '#play:' +
     encodeURIComponent source
   $a = $('<a>').attr('href', permalink).text('permalink')
-  $('#repl textarea').before($('<p>').text(source).addClass('source')
+  $('#repl').append($('<p>').text(source).addClass('source')
     .append($('<span>').addClass('permalink').text(' ').append($a))
     .prepend("<span class='history'>#{historyIndex}</span>"))
 
@@ -85,7 +87,7 @@ appendResult = (result) ->
       c = 'result error'
     when 'coffeeError'
       c = 'result coffee error'
-  $('#repl textarea').before($('<p>').text(String(result.value)).addClass(c))
+  $('#repl').append($('<p>').text(String(result.value)).addClass(c))
 
 snapScroll = ->
   # Scroll the document so that the repl is showing at the bottom.
@@ -105,7 +107,7 @@ $(document.body)
 prog = decodeURIComponent window.location.hash
 if prog.match /^#play:/
   prog = prog.replace /^#play:/, ''
-  $('#repl textarea').val(prog)
+  $('textarea').val(prog)
   compileAndGo()
   </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
