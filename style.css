@@ -1,42 +1,82 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background: #fff;
+    border-bottom: 2px solid #eee;
+}
+
 h2 {
-  font-weight: normal
+    margin: 0;
+    font-weight: normal
 }
 
 .logo i {
-  font-weight: normal
+    font-weight: normal;
+    font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 .logo b {
-  font-style: bold
+    font-style: bold
+}
+
+#repl {
+    padding: 40px 0 120px 0;
 }
 
 .source {
-  background-color: #ccc
+    background-color: #ccc
 }
 
 .source .history {
-  background-color: #999
+    background-color: #999
 }
 
 .source .history:after {
-  content: ": "
+    content: ": "
 }
 
 .result.error {
-  background-color: #fc2
+    background-color: #fc2
 }
 
 .result.coffee.error {
-  background-color: #c82
+    background-color: #c82
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    background: rgb(238, 238, 238);
+    left: 0;
+    right: 0;
+    padding: 10px;
+    border-top: 2px solid #ccc;
+}
+
+footer textarea {
+    width: 100%;
+    font-size: 18px;
+    line-height: 24px;
+    padding: 10px;
+    background-color: #f9f9f9;
 }
 
 #me {
-  display: none;
-  position: fixed;
-  width: 400px;
-  height: 400px;
-  top: 10px;
-  right: 10px;
-  background: rgba(220,220,220,0.8);
-  margin: 0;
+    display: none;
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    top: 10px;
+    right: 10px;
+    background: rgba(220,220,220,0.8);
+    margin: 0;
 }
