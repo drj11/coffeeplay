@@ -2,6 +2,7 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 24px;
+    padding: 40px 0 120px 0;
 }
 
 header {
@@ -26,10 +27,6 @@ h2 {
 
 .logo b {
     font-style: bold
-}
-
-#repl {
-    padding: 40px 0 120px 0;
 }
 
 .source {
@@ -68,6 +65,7 @@ footer textarea {
     line-height: 24px;
     padding: 10px;
     background-color: #f9f9f9;
+    font-family: Consolas, "Lucida Console", Monaco, Courier, monospace;
 }
 
 #me {
