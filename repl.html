@@ -12,7 +12,7 @@
     </h2>
   </header>
   <div id="main">
-    <div id="repl"></div>
+    <table id="repl"></table>
     <div id="me"></div>
   </div>
   <footer>
@@ -74,10 +74,10 @@ appendEvaluation = (source, result) ->
 appendSource = (source) ->
   permalink = location.origin + location.pathname + '#play:' +
     encodeURIComponent source
-  $a = $('<a>').attr('href', permalink).text('permalink')
-  $('#repl').append($('<p>').text(source).addClass('source')
-    .append($('<span>').addClass('permalink').text(' ').append($a))
-    .prepend("<span class='history'>#{historyIndex}</span>"))
+  $tr = $('<tr class="source">')
+  $tr.append("""<td class="history">#{historyIndex}</td>""")
+  $tr.append("""<td class="message">#{source} <a class="permalink" href="#{permalink}">Permalink</a></td>""")
+  $tr.appendTo('#repl')
 
 appendResult = (result) ->
   switch result.completion
@@ -87,7 +87,10 @@ appendResult = (result) ->
       c = 'result error'
     when 'coffeeError'
       c = 'result coffee error'
-  $('#repl').append($('<p>').text(String(result.value)).addClass(c))
+  $tr = $("""<tr class="#{c}">""")
+  $tr.append("""<td>""")
+  $tr.append("""<td class="message">#{String(result.value)}</td>""")
+  $tr.appendTo('#repl')
 
 snapScroll = ->
   # Scroll the document so that the repl is showing at the bottom.

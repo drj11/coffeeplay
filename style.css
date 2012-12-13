@@ -2,7 +2,8 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 24px;
-    padding: 40px 0 120px 0;
+    padding: 50px 0 120px 0;
+    margin: 0;
 }
 
 header {
@@ -10,7 +11,9 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    padding: 10px;
+    line-height: 48px;
+    height: 48px;
+    padding: 0 10px;
     background: #fff;
     border-bottom: 2px solid #eee;
 }
@@ -29,16 +32,45 @@ h2 {
     font-style: bold
 }
 
-.source {
-    background-color: #ccc
+#repl {
+    border-spacing: 0;
+    border-collapse: collapse;
+    width: 100%;
 }
 
-.source .history {
-    background-color: #999
+#repl td {
+    padding: 7px 10px;
+    line-height: 24px;
 }
 
-.source .history:after {
-    content: ": "
+#repl td.history {
+    text-align: right;
+    width: 2em;
+    color: #999;
+}
+
+#repl .source {
+    background-color: #eee
+}
+
+#repl .permalink {
+    margin-left: 10px;
+    color: #aaa;
+    text-shadow: 0 1px 0 #fff;
+    text-decoration: none;
+    float: right;
+}
+
+#repl .permalink:hover {
+    text-decoration: underline;
+}
+
+#repl tr:hover .permalink {
+    color: #333;
+}
+
+#repl .result {
+    font-family: Consolas, "Lucida Console", Monaco, Courier, monospace;
 }
 
 .result.error {
@@ -65,7 +97,6 @@ footer textarea {
     line-height: 24px;
     padding: 10px;
     background-color: #f9f9f9;
-    font-family: Consolas, "Lucida Console", Monaco, Courier, monospace;
 }
 
 #me {
