@@ -24,6 +24,9 @@
 # exports.thing = 'stuff'
 exports = this
 
+console.log = (stuff...) ->
+  appendOutput.apply(null, stuff)
+
 # Keeps track of how many commands have been typed.
 historyIndex = 0
 
@@ -50,10 +53,10 @@ compileAndGo = ->
   source = $('textarea').val()
   result = {}
   compiled = null
-  console.log "will compile", source
+  console.debug "will compile", source
   try
     compiled = CoffeeScript.compile source, bare: yes
-    console.log "compiled code", compiled
+    console.debug "compiled code", compiled
   catch error
     result.value = error
     result.completion = 'coffeeError'
@@ -92,6 +95,12 @@ appendResult = (result) ->
   $tr.append("""<td>""")
   $tr.append("""<td class="message">#{String(result.value)}</td>""")
   $tr.appendTo('#repl')
+
+appendOutput = (output) ->
+  $tr = $('<tr class="output">')
+    .append('<td>')
+    .append($('<td class="message">').text(output))
+    .appendTo('#repl')
 
 snapScroll = ->
   # Scroll the document so that the repl is showing at the bottom.
