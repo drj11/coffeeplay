@@ -96,7 +96,8 @@ appendResult = (result) ->
   $tr.append("""<td class="message">#{String(result.value)}</td>""")
   $tr.appendTo('#repl')
 
-appendOutput = (output) ->
+appendOutput = (output...) ->
+  output = output.join ' '
   $tr = $('<tr class="output">')
     .append('<td>')
     .append($('<td class="message">').text(output))
