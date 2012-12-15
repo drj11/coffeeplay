@@ -54,6 +54,8 @@ compileAndGo = ->
   source = $('textarea').val()
   result = {}
   compiled = null
+  appendSource(source)
+  historyIndex += 1
   console.debug "will compile", source
   try
     compiled = CoffeeScript.compile source, bare: yes
@@ -68,13 +70,8 @@ compileAndGo = ->
     catch error
       result.value = error
       result.completion = 'error'
-  appendEvaluation source, result
-  $('textarea').select()
-
-appendEvaluation = (source, result) ->
-  appendSource(source)
-  historyIndex += 1
   appendResult result
+  $('textarea').select()
 
 appendSource = (source) ->
   permalink = location.origin + location.pathname + '#play:' +
