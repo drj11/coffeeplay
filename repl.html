@@ -55,6 +55,8 @@ compileAndGo = ->
   result = {}
   compiled = null
   appendSource(source)
+  if source.match /^[^ ]/
+    histSource(source)
   historyIndex += 1
   console.debug "will compile", source
   try
@@ -72,6 +74,11 @@ compileAndGo = ->
       result.completion = 'error'
   appendResult result
   $('textarea').select()
+
+history = []
+histSource = (source) ->
+  history.push source
+  localStorage.history = JSON.stringify history
 
 appendSource = (source) ->
   permalink = location.origin + location.pathname + '#play:' +
