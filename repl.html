@@ -30,6 +30,7 @@ console.log = (stuff...) ->
 
 # Keeps track of how many commands have been typed.
 historyIndex = 0
+historyStepsBack = 0
 
 # A hack that means evals using indirectEval will cause
 # assignments to be to the global object.  Makes "foo=7"
@@ -58,6 +59,7 @@ compileAndGo = ->
   if source.match /^[^ ]/
     histSource(source)
   historyIndex += 1
+  historyStepsBack = 0
   console.debug "will compile", source
   try
     compiled = CoffeeScript.compile source, bare: yes
@@ -113,14 +115,40 @@ snapScroll = ->
   # After http://stackoverflow.com/a/5909328/242457
   $('body').scrollTop($(document).height())
 
-$(document.body)
-  .keydown (e) ->
+loadPreviousSource = ->
+  history = JSON.parse localStorage.history
+  if historyStepsBack == 0
+    historyStepsBack = 1
+  else if historyStepsBack == history.length
+    return false
+  else
+    historyStepsBack += 1
+  console.dir historyStepsBack
+  $('textarea').val history[history.length - historyStepsBack]
+
+loadNextSource = ->
+  history = JSON.parse localStorage.history
+  if historyStepsBack == 0
+    $('textarea').val ''
+    return false
+  else
+    historyStepsBack -= 1
+  console.dir historyStepsBack
+  $('textarea').val history[history.length - historyStepsBack]
+
+$('textarea').keydown (e) ->
     modified = e.shiftKey
     if modified
       return true
     if e.which == 13
       compileAndGo()
       snapScroll()
+      e.preventDefault()
+    if e.which == 38
+      loadPreviousSource()
+      e.preventDefault()
+    if e.which == 40
+      loadNextSource()
       e.preventDefault()
 
 prog = decodeURIComponent window.location.hash
