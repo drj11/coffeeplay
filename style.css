@@ -81,6 +81,10 @@ h2 {
     background-color: #c82
 }
 
+#controls {
+    font-size: 12px;
+}
+
 footer {
     position: fixed;
     bottom: 0;
