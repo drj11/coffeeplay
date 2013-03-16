@@ -41,9 +41,11 @@ open = (obj) ->
   # Extract all of the function properties of obj and make them
   # global functions that call the corresponding method on obj.
   for k,v of obj when typeof v is 'function'
-    exports[k] = (args...) -> v.apply(obj, args)
-  # Avoids constructing and returning list.
-  'opened'
+    (->
+      vbind = v
+      exports[k] = () -> vbind.apply(obj, arguments)
+    )()
+  obj
 
 exports.Studio = (module) ->
   # Enable studio mode by displaying the '#studio' div
@@ -51,7 +53,6 @@ exports.Studio = (module) ->
   $('#studio').css 'display', 'block'
   obj = module 'studio'
   open obj
-  obj
 
 compileAndGo = ->
   source = $('textarea').val()
@@ -164,5 +165,6 @@ if prog.match /^#play:/
   <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
   <script src="http://g.raphaeljs.com/g.raphael.js"></script>
   <script src="http://g.raphaeljs.com/g.pie.js"></script>
+  <script src="http://g.raphaeljs.com/g.bar.js"></script>
 </body>
 </html>
