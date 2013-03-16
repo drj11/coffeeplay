@@ -40,7 +40,8 @@ indirectEval = eval
 open = (obj) ->
   # Extract all of the function properties of obj and make them
   # global functions that call the corresponding method on obj.
-  (exports[k] = (args...) -> v.apply(obj, args))  for k,v of obj when typeof v is 'function'
+  for k,v of obj when typeof v is 'function'
+    exports[k] = (args...) -> v.apply(obj, args)
   # Avoids constructing and returning list.
   'opened'
 
