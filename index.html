@@ -14,7 +14,7 @@
   </header>
   <div id="main">
     <table id="repl"></table>
-    <div id="me"></div>
+    <div id="studio"></div>
   </div>
   <footer>
     <textarea rows="3" cols="43" spellcheck="false" autofocus="autofocus" placeholder="Type some CoffeeScript and press ↵"></textarea>
@@ -45,11 +45,12 @@ open = (obj) ->
   'opened'
 
 exports.Studio = (module) ->
-  # Enable studio mode by displaying the '#me' div
+  # Enable studio mode by displaying the '#studio' div
   # and invoking the module.  EG r = Studio Raphael
-  $('#me').css 'display', 'block'
-  obj = module 'me'
+  $('#studio').css 'display', 'block'
+  obj = module 'studio'
   open obj
+  obj
 
 compileAndGo = ->
   source = $('textarea').val()
