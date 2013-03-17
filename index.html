@@ -54,13 +54,23 @@ exports.Studio = (module) ->
   obj = module 'studio'
   open obj
 
-exports.cheat = ->
-  # Display link to cheatsheet.
-  l="https://github.com/drj11/flosscoffee/blob/master/cheatsheet.md"
+sneakLink = (link) ->
   $("tr.source").last().after """
     <tr><td></td><td>
-    <a target="newtab" href="#{l}">#{l}</a></td></tr>"""
+    <a target="newtab" href="#{link}">#{link}</a></td></tr>"""
+
+exports.cheat = ->
+  # Display link to cheatsheet.
+  l = "https://github.com/drj11/flosscoffee/blob/master/cheatsheet.md"
+  sneakLink l
   "see cheatsheet in link above"
+
+exports.exercise = (n) ->
+  # Display link to exercise n.
+  n |= 0
+  l = "https://github.com/drj11/flosscoffee/blob/master/exercise#{n}.md"
+  sneakLink l
+  "see exercise #{n} in link above"
 
 compileAndGo = ->
   source = $('textarea').val()
