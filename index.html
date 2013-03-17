@@ -54,6 +54,14 @@ exports.Studio = (module) ->
   obj = module 'studio'
   open obj
 
+exports.cheat = ->
+  # Display link to cheatsheet.
+  l="https://github.com/drj11/flosscoffee/blob/master/cheatsheet.md"
+  $("tr.source").last().after """
+    <tr><td></td><td>
+    <a target="newtab" href="#{l}">#{l}</a></td></tr>"""
+  "see cheatsheet in link above"
+
 compileAndGo = ->
   source = $('textarea').val()
   result = {}
