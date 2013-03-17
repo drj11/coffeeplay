@@ -74,6 +74,12 @@ exports.exercise = (n) ->
 
 repr = (x, max=6, depth=0) ->
   # Return a representation of a CoffeeScript value.
+  try
+    JSON.stringify x
+  catch error
+    if /circular/.test String error
+      return "*circular*"
+    return "*repr* #{String error}"
   if depth > 6
     return "*max-depth*"
   switch typeof x
