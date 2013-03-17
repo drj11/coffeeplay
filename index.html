@@ -90,7 +90,10 @@ appendSource = (source) ->
     encodeURIComponent source
   $tr = $('<tr class="source">')
   $tr.append("""<td class="history">#{historyIndex}</td>""")
-  $tr.append("""<td class="message">#{source} <a class="permalink" href="#{permalink}">Permalink</a></td>""")
+  $td = $ '<td class="message">'
+  $td.text source
+  $td.append(""" <a class="permalink" href="#{permalink}">Permalink</a>""")
+  $tr.append($td)
   $tr.appendTo('#repl')
 
 appendResult = (result) ->
@@ -103,7 +106,9 @@ appendResult = (result) ->
       c = 'result coffee error'
   $tr = $("""<tr class="#{c}">""")
   $tr.append("""<td>""")
-  $tr.append("""<td class="message">#{String(result.value)}</td>""")
+  $td = $ '<td class="message">'
+  $td.text String(result.value)
+  $tr.append $td
   $tr.appendTo('#repl')
 
 appendOutput = (output...) ->
