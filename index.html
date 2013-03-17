@@ -72,6 +72,23 @@ exports.exercise = (n) ->
   sneakLink l
   "see exercise #{n} in link above"
 
+repr = (x, max=6, depth=0) ->
+  # Return a representation of a CoffeeScript value.
+  if depth > 6
+    return "*max-depth*"
+  switch typeof x
+    when 'string' then "'#{x.replace /'/g, "\\'"}'"
+    when 'function' then '<function>'
+    when 'object'
+      if x is null
+        return 'null'
+      if Array.isArray x # Assumes ECMAScript 5
+        "[#{(repr v, max, depth+1 for v in x).join ", "}]"
+      else
+        "{#{("#{repr k}: #{repr v, max, depth+1}" for k,v of x).join ", "}}"
+    when 'undefined' then 'undefined'
+    else x
+
 compileAndGo = ->
   source = $('textarea').val()
   result = {}
@@ -125,7 +142,7 @@ appendResult = (result) ->
   $tr = $("""<tr class="#{c}">""")
   $tr.append("""<td>""")
   $td = $ '<td class="message">'
-  $td.text String(result.value)
+  $td.text repr result.value
   $tr.append $td
   $tr.appendTo('#repl')
 
