@@ -142,7 +142,11 @@ appendResult = (result) ->
   $tr = $("""<tr class="#{c}">""")
   $tr.append("""<td>""")
   $td = $ '<td class="message">'
-  $td.text repr result.value
+  if result.completion is 'normal'
+    $td.text repr result.value
+  else
+    # For error objects.
+    $td.text String result.value
   $tr.append $td
   $tr.appendTo('#repl')
 
