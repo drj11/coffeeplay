@@ -17,7 +17,7 @@
     <div id="studio"></div>
   </div>
   <footer>
-    <textarea rows="3" cols="43" spellcheck="false" autofocus="autofocus" placeholder="Type some CoffeeScript and press ↵"></textarea>
+    <textarea rows="3" cols="43" spellcheck="false" autofocus="autofocus" placeholder="Type some CoffeeScript and press Alt-↵"></textarea>
   </footer>
   <script type="text/coffeescript">
 # Allow truly global exports to be defined using
@@ -207,6 +207,12 @@ if prog.match /^#play:/
   prog = prog.replace /^#play:/, ''
   $('textarea').val(prog)
   compileAndGo()
+
+# Randomly update the placeholder text
+if Math.random() < 0.5
+  p = $('footer textarea').attr 'placeholder'
+  p = p.replace 'Alt', 'Ctrl'
+  $('footer textarea').attr 'placeholder', p
   </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <script src="http://coffeescript.org/extras/coffee-script.js"></script>
