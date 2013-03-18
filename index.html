@@ -190,17 +190,15 @@ loadNextSource = ->
   $('textarea').val history[history.length - historyStepsBack]
 
 $('textarea').keydown (e) ->
-    modified = e.shiftKey
-    if modified
-      return true
-    if e.which == 13
+    modified = e.altKey || e.ctrlKey
+    if e.which == 13 and (modified or e.shiftKey)
       compileAndGo()
       snapScroll()
       e.preventDefault()
-    if e.which == 38
+    if modified and e.which == 38
       loadPreviousSource()
       e.preventDefault()
-    if e.which == 40
+    if modified and e.which == 40
       loadNextSource()
       e.preventDefault()
 
